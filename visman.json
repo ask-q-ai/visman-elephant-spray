@@ -1,0 +1,604 @@
+{
+  "type": "visualization",
+  "stylePresets": {
+    "noStroke": {
+      "strokeStyle": "transparent",
+      "lineWidth": 0
+    },
+    "elephantDark": {
+      "fillStyle": "#5B6768",
+      "strokeStyle": "transparent",
+      "lineWidth": 0
+    },
+    "elephantBase": {
+      "fillStyle": "#7F8C8D",
+      "strokeStyle": "#758688",
+      "lineWidth": 1.5
+    },
+    "waterBase": {
+      "fillStyle": "transparent"
+    },
+    "grassDark": {
+      "fillStyle": "transparent",
+      "strokeStyle": "#27AE60",
+      "lineWidth": 3
+    },
+    "grassLight": {
+      "fillStyle": "transparent",
+      "strokeStyle": "#2ECC71",
+      "lineWidth": 3
+    }
+  },
+  "animationPresets": {
+    "earSway": {
+      "rotation": {
+        "z": "{{ Math.sin(@vm.time.seconds * 1.6) * 0.22 }}"
+      }
+    },
+    "trunkSway": {
+      "rotation": {
+        "z": "{{ Math.sin(@vm.time.seconds * 2.2) * 0.28 }}"
+      }
+    }
+  },
+  "objectPresets": {
+    "canvasPath": {
+      "context": "canvas",
+      "type": "path"
+    },
+    "noStrokeCircle": {
+      "context": "canvas",
+      "type": "circle",
+      "styleRef": "noStroke"
+    },
+    "noStrokePath": {
+      "context": "canvas",
+      "type": "path",
+      "styleRef": "noStroke"
+    },
+    "backLeg": {
+      "context": "canvas",
+      "type": "rectangle",
+      "size": {
+        "width": 28,
+        "height": 110
+      },
+      "styleRef": "elephantDark"
+    },
+    "frontLeg": {
+      "context": "canvas",
+      "type": "rectangle",
+      "size": {
+        "width": 28,
+        "height": 110
+      },
+      "styleRef": "elephantBase"
+    },
+    "trunkBasePath": {
+      "context": "canvas",
+      "type": "path",
+      "position": {
+        "x": 290,
+        "y": 200
+      },
+      "pivot": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "waterStroke": {
+      "styleRef": "waterBase"
+    }
+  },
+  "viewport": {
+    "width": 600,
+    "height": 400,
+    "fit": "contain",
+    "align": "center"
+  },
+  "canvasLayer": [
+    {
+      "id": "background",
+      "context": "canvas",
+      "type": "rectangle",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 600,
+        "height": 400
+      },
+      "styleRef": "noStroke",
+      "style": {
+        "fillStyle": "#FFFAF0"
+      }
+    },
+    {
+      "id": "sun-glow",
+      "context": "canvas",
+      "type": "circle",
+      "position": {
+        "x": 500,
+        "y": 80
+      },
+      "size": {
+        "radius": "{{ 42 + (Math.sin(@vm.time.seconds * 1.6) * 10) }}"
+      },
+      "opacity": "{{ 0.2 + ((Math.sin(@vm.time.seconds * 1.6) + 1) * 0.05) }}",
+      "styleRef": "noStroke",
+      "style": {
+        "fillStyle": "#F4D03F"
+      }
+    },
+    {
+      "id": "sun-core",
+      "context": "canvas",
+      "type": "circle",
+      "position": {
+        "x": 500,
+        "y": 80
+      },
+      "size": {
+        "radius": 30
+      },
+      "styleRef": "noStroke",
+      "style": {
+        "fillStyle": "#F4D03F"
+      }
+    },
+    {
+      "id": "ground-shadow-elephant",
+      "use": "noStrokePath",
+      "position": {
+        "x": 200,
+        "y": 330
+      },
+      "properties": {
+        "pathData": "M-110 0 C-110 -12 110 -12 110 0 C110 12 -110 12 -110 0 Z"
+      },
+      "style": {
+        "fillStyle": "#E8EDEA"
+      }
+    },
+    {
+      "id": "puddle",
+      "use": "noStrokePath",
+      "position": {
+        "x": 480,
+        "y": 330
+      },
+      "properties": {
+        "pathData": "M-45 0 C-45 -8 45 -8 45 0 C45 8 -45 8 -45 0 Z"
+      },
+      "style": {
+        "fillStyle": "#AED6F1"
+      }
+    },
+    {
+      "id": "tail",
+      "use": "canvasPath",
+      "position": {
+        "x": 130,
+        "y": 180
+      },
+      "properties": {
+        "pathData": "M0 0 Q-40 40 -30 90"
+      },
+      "style": {
+        "fillStyle": "transparent",
+        "strokeStyle": "#7F8C8D",
+        "lineWidth": 8
+      }
+    },
+    {
+      "id": "tail-tip",
+      "use": "noStrokePath",
+      "position": {
+        "x": 95,
+        "y": 260
+      },
+      "properties": {
+        "pathData": "M0 0 L10 20 L0 20 Z"
+      },
+      "style": {
+        "fillStyle": "#5B6768"
+      }
+    },
+    {
+      "id": "back-leg-1",
+      "use": "backLeg",
+      "position": {
+        "x": 150,
+        "y": 220
+      }
+    },
+    {
+      "id": "back-leg-2",
+      "use": "backLeg",
+      "position": {
+        "x": 230,
+        "y": 220
+      }
+    },
+    {
+      "id": "body",
+      "use": "noStrokePath",
+      "position": {
+        "x": 88,
+        "y": "{{ 136 + (Math.sin(@vm.time.seconds * 1.4) * 6) }}"
+      },
+      "properties": {
+        "pathData": "M0 78 C0 34 44 2 108 2 C176 2 224 36 224 82 C224 122 178 154 112 154 C44 154 0 122 0 78 Z"
+      },
+      "styleRef": [
+        "elephantBase",
+        "noStroke"
+      ]
+    },
+    {
+      "id": "head",
+      "context": "canvas",
+      "type": "circle",
+      "position": {
+        "x": 260,
+        "y": "{{ 180 + (Math.sin(@vm.time.seconds * 1.4) * 5) }}"
+      },
+      "size": {
+        "radius": 65
+      },
+      "styleRef": "elephantBase"
+    },
+    {
+      "id": "ear",
+      "use": "noStrokePath",
+      "animateRef": "earSway",
+      "position": {
+        "x": 248,
+        "y": 140
+      },
+      "pivot": {
+        "x": 0,
+        "y": 0
+      },
+      "properties": {
+        "pathData": "M0 0 C70 -10 50 110 -10 100 C-70 90 -50 10 0 0 Z"
+      },
+      "style": {
+        "fillStyle": "#95A5A6"
+      }
+    },
+    {
+      "id": "ear-inner",
+      "use": "noStrokePath",
+      "animateRef": "earSway",
+      "position": {
+        "x": 253,
+        "y": 155
+      },
+      "pivot": {
+        "x": -5,
+        "y": -15
+      },
+      "opacity": 0.6,
+      "properties": {
+        "pathData": "M0 0 C45 -5 30 75 -10 65 C-45 55 -30 5 0 0 Z"
+      },
+      "style": {
+        "fillStyle": "#F5B7B1"
+      }
+    },
+    {
+      "id": "eye",
+      "use": "noStrokeCircle",
+      "position": {
+        "x": 285,
+        "y": 160
+      },
+      "size": {
+        "radius": 6
+      },
+      "style": {
+        "fillStyle": "#1A252F"
+      }
+    },
+    {
+      "id": "eye-highlight",
+      "use": "noStrokeCircle",
+      "position": {
+        "x": 287,
+        "y": 158
+      },
+      "size": {
+        "radius": 2
+      },
+      "style": {
+        "fillStyle": "#FFFFFF"
+      }
+    },
+    {
+      "id": "smile",
+      "use": "canvasPath",
+      "position": {
+        "x": 265,
+        "y": 210
+      },
+      "properties": {
+        "pathData": "M0 0 Q15 15 30 0"
+      },
+      "style": {
+        "fillStyle": "transparent",
+        "strokeStyle": "#5B6768",
+        "lineWidth": 3
+      }
+    },
+    {
+      "id": "trunk",
+      "use": "trunkBasePath",
+      "animateRef": "trunkSway",
+      "properties": {
+        "pathData": "M0 0 Q55 50 72 -28 T90 -110"
+      },
+      "style": {
+        "fillStyle": "transparent",
+        "strokeStyle": "#7F8C8D",
+        "lineWidth": 26
+      }
+    },
+    {
+      "id": "trunk-wrinkles",
+      "use": "canvasPath",
+      "animateRef": "trunkSway",
+      "position": {
+        "x": 290,
+        "y": 200
+      },
+      "pivot": {
+        "x": 0,
+        "y": 0
+      },
+      "properties": {
+        "pathData": "M30 20 L45 25 M55 -15 L70 -10 M75 -70 L85 -65"
+      },
+      "style": {
+        "fillStyle": "transparent",
+        "strokeStyle": "#5B6768",
+        "lineWidth": 3
+      }
+    },
+    {
+      "id": "water-stream",
+      "use": [
+        "trunkBasePath",
+        "waterStroke"
+      ],
+      "animateRef": "trunkSway",
+      "instances": [
+        {
+          "id": "water-stream-1",
+          "opacity": 0.9,
+          "properties": {
+            "pathData": "M90 -110 Q150 -220 190 130"
+          },
+          "style": {
+            "strokeStyle": "#3498DB",
+            "lineWidth": 12,
+            "strokeDashArray": [
+              15,
+              35
+            ],
+            "strokeDashOffset": "{{ ((@vm.time.seconds * 220) % 50) }}"
+          }
+        },
+        {
+          "id": "water-stream-2",
+          "opacity": 0.85,
+          "properties": {
+            "pathData": "M90 -110 Q175 -210 210 140"
+          },
+          "style": {
+            "strokeStyle": "#85C1E9",
+            "lineWidth": 8,
+            "strokeDashArray": [
+              10,
+              40
+            ],
+            "strokeDashOffset": "{{ ((@vm.time.seconds * 250) % 50) }}"
+          }
+        },
+        {
+          "id": "water-stream-3",
+          "opacity": 0.82,
+          "properties": {
+            "pathData": "M90 -110 Q120 -230 170 140"
+          },
+          "style": {
+            "strokeStyle": "#5DADE2",
+            "lineWidth": 10,
+            "strokeDashArray": [
+              20,
+              30
+            ],
+            "strokeDashOffset": "{{ ((@vm.time.seconds * 200) % 50) }}"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tusk",
+      "use": "noStrokePath",
+      "position": {
+        "x": 285,
+        "y": 205
+      },
+      "properties": {
+        "pathData": "M0 0 Q25 30 55 20 Q25 15 0 10 Z"
+      },
+      "style": {
+        "fillStyle": "#ECF0F1"
+      }
+    },
+    {
+      "id": "front-leg-1",
+      "use": "frontLeg",
+      "position": {
+        "x": 130,
+        "y": 220
+      }
+    },
+    {
+      "id": "front-leg-2",
+      "use": "frontLeg",
+      "position": {
+        "x": 210,
+        "y": 220
+      }
+    },
+    {
+      "id": "head-drop",
+      "use": "noStrokeCircle",
+      "instances": [
+        {
+          "id": "head-drop-1",
+          "position": {
+            "x": 270,
+            "y": 120
+          },
+          "size": {
+            "radius": 4
+          },
+          "opacity": "{{ 0.4 + ((Math.sin(@vm.time.seconds * 3.0) + 1) * 0.3) }}",
+          "style": {
+            "fillStyle": "#85C1E9"
+          }
+        },
+        {
+          "id": "head-drop-2",
+          "position": {
+            "x": 250,
+            "y": 130
+          },
+          "size": {
+            "radius": 2.5
+          },
+          "opacity": "{{ 0.35 + ((Math.sin((@vm.time.seconds * 3.0) + 1.6) + 1) * 0.3) }}",
+          "style": {
+            "fillStyle": "#5DADE2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "splash",
+      "use": "noStrokeCircle",
+      "instances": [
+        {
+          "id": "splash-1",
+          "position": {
+            "x": "{{ 470 + (Math.sin(@vm.time.seconds * 7.0) * 8) }}",
+            "y": "{{ 330 - ((Math.sin(@vm.time.seconds * 9.0) + 1) * 10) }}"
+          },
+          "size": {
+            "radius": 4
+          },
+          "opacity": "{{ (Math.sin(@vm.time.seconds * 9.0) + 1) / 2 }}",
+          "style": {
+            "fillStyle": "#3498DB"
+          }
+        },
+        {
+          "id": "splash-2",
+          "position": {
+            "x": "{{ 490 + (Math.sin((@vm.time.seconds * 7.0) + 1.4) * 10) }}",
+            "y": "{{ 330 - ((Math.sin((@vm.time.seconds * 9.0) + 1.1) + 1) * 13) }}"
+          },
+          "size": {
+            "radius": 5
+          },
+          "opacity": "{{ (Math.sin((@vm.time.seconds * 9.0) + 1.1) + 1) / 2 }}",
+          "style": {
+            "fillStyle": "#85C1E9"
+          }
+        },
+        {
+          "id": "splash-3",
+          "position": {
+            "x": "{{ 460 + (Math.sin((@vm.time.seconds * 7.0) + 2.4) * 10) }}",
+            "y": "{{ 325 - ((Math.sin((@vm.time.seconds * 9.0) + 2.0) + 1) * 12) }}"
+          },
+          "size": {
+            "radius": 4
+          },
+          "opacity": "{{ (Math.sin((@vm.time.seconds * 9.0) + 2.0) + 1) / 2 }}",
+          "style": {
+            "fillStyle": "#5DADE2"
+          }
+        },
+        {
+          "id": "splash-4",
+          "position": {
+            "x": "{{ 500 + (Math.sin((@vm.time.seconds * 7.0) + 2.9) * 12) }}",
+            "y": "{{ 330 - ((Math.sin((@vm.time.seconds * 9.0) + 2.7) + 1) * 9) }}"
+          },
+          "size": {
+            "radius": 4
+          },
+          "opacity": "{{ (Math.sin((@vm.time.seconds * 9.0) + 2.7) + 1) / 2 }}",
+          "style": {
+            "fillStyle": "#3498DB"
+          }
+        },
+        {
+          "id": "splash-5",
+          "position": {
+            "x": "{{ 455 + (Math.sin((@vm.time.seconds * 7.0) + 3.4) * 11) }}",
+            "y": "{{ 325 - ((Math.sin((@vm.time.seconds * 9.0) + 3.1) + 1) * 8) }}"
+          },
+          "size": {
+            "radius": 4
+          },
+          "opacity": "{{ (Math.sin((@vm.time.seconds * 9.0) + 3.1) + 1) / 2 }}",
+          "style": {
+            "fillStyle": "#5DADE2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "grass-left",
+      "use": "canvasPath",
+      "position": {
+        "x": 150,
+        "y": 330
+      },
+      "properties": {
+        "pathData": "M0 0 Q-5 -20 -10 0 M10 0 Q15 -15 20 0"
+      },
+      "styleRef": "grassDark"
+    },
+    {
+      "id": "grass-right",
+      "use": "canvasPath",
+      "position": {
+        "x": 510,
+        "y": 330
+      },
+      "properties": {
+        "pathData": "M0 0 Q5 -20 10 0 M15 0 Q20 -15 25 0"
+      },
+      "styleRef": "grassLight"
+    },
+    {
+      "id": "grass-mid",
+      "use": "canvasPath",
+      "position": {
+        "x": 430,
+        "y": 325
+      },
+      "properties": {
+        "pathData": "M0 0 Q-5 -15 -10 0"
+      },
+      "styleRef": "grassDark"
+    }
+  ]
+}

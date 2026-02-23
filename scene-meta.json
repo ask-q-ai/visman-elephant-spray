@@ -1,0 +1,15 @@
+{
+  "id": "elephant-spray",
+  "name": "Elephant Spray",
+  "description": "Exported from embedded Flutter VisMan demo scene \"elephant-spray\".",
+  "tags": [
+    "elephant",
+    "spray"
+  ],
+  "source": "flutter-embedded-demo",
+  "generatedAt": "2026-02-23T08:11:45.557246Z",
+  "sceneFile": "visman.json",
+  "objectCount": 27,
+  "hasPhysics": false,
+  "has3D": false
+}
